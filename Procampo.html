@@ -1,0 +1,285 @@
+<!---Estableciendo la versión HTML versión 5.0-->
+<!DOCTYPE html>
+<!--Etiqueta propiedad o atributo-->
+<html lang="en">
+  <input id="date" name="date">
+  <script type="text/javascript">
+    document.getElementById('date').value = Date();
+  </script>
+  <script>
+    window.onload=function(){alert('Bienvenido a nuestro portal de venta de productos del Campo');}
+     </script>
+    <head>
+    <!--titulo de la página, icono de la pestaña estilo (css), js-->
+    <meta charset="UTF-8">
+    <!--Resposivo-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style src="./js/css/miestilo.css"></style>
+    <link rel="icon" href="./img/icono.ico">
+    <title>Procampo</title>
+    <!--Utilización del codigo CSS-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
+    </head>
+<body style="background-color:#77dd77;">
+  <div id="Menu">
+    <header>
+         <ul>
+           <li><a href="https://www.corabastos.com.co/en/noticias">Noticias de Corabastos Bogotá</a></li>
+           <li><a href="https://www.cinep.org.co/Home2/component/k2/tag/campesinado.html?start=5">Editorial el Campesino si cuenta</a></li>
+           <li><a href="https://ccconsumidores.org.co/">Confederación Colombiana de Consumidores</a></li>
+        </ul>
+    </header>
+      </div>
+      <center><i><h1 style="color: blue;"> PROCAMPO </h1></i></center>
+      <button>Regresar</button>
+                                <!--Estilo externo-->
+                                                     
+    <link rel="stylesheet" href="css/miestilo.css">
+
+    <center><i><h2 class=".Titulo">Productos disponibles para compras en línea</h2></i></center>
+    
+    <!--nested o anidación de equiquetas-->
+    <center><i><b>Productos disponibles para compras en línea
+        Los siguientes productos se encuentran a muy buen precio de mercado debido a que en la actualidad se<br>
+        encuentran en cosecha y por medio de esta página queremos incentivar su comercialización; si busca otra información</b></i>
+    <!--propiedad de anclas-->
+    <a href="https://www.google.com/">haz clic para ir a Google</a></center>
+    <br>
+    <!--agregar imagenes-->
+    <center><img src="./img/productos.jpg"alt="Texto alterno!!"></center>
+    <h2 class="Titulo"><b>Descripción de productos disponibles; precio por Libra</b></h2>
+    <div id="Procampo">
+        <ul>
+          <li><a href="#papa">papa</a></li>
+          <li><a href="#cebolla">cebolla</a></li>
+          <li><a href="#banano">banano</a></li>
+          <li><a href="#fresas">fresas</a></li>
+        </ul>
+        <div id="papa">
+            <p><img src="./img/papa.jpg"alt="Texto alterno!!">Precio $1.000=Libra</p>
+         </div>
+         <div id="cebolla">
+            <p><img src="./img/cebolla.jpg"alt="Texto alterno!!">Precio $500=Libra</p>
+        </div>
+         <div id="banano">
+             <p><img src="./img/banano.jpg"alt="Texto alterno!!">Precio $800=Libra</p>
+         </div>    
+        <div id="fresas">
+                <p><img src="./img/fresas.jpg"alt="Texto alterno!!">Precio $600=Libra</p>
+         </div>
+       </div>
+    <script>
+        window.onload = function () {
+          // Variables
+          const baseDeDatos = [
+              {
+                  id: 1,
+                  nombre: 'papa',
+                  precio: 1000,
+                  
+              },
+              {
+                  id: 2,
+                  nombre: 'cebolla',
+                  precio: 500,
+                  
+              },
+              {
+                  id: 3,
+                  nombre: 'banano',
+                  precio: 800,
+                  
+              },
+              {
+                  id: 4,
+                  nombre: 'fresas',
+                  precio: 600,
+                  
+              }
+
+          ];
+
+          let carrito = [];
+          let total = 0;
+          const DOMitems = document.querySelector('#items');
+          const DOMcarrito = document.querySelector('#carrito');
+          const DOMtotal = document.querySelector('#total');
+          const DOMbotonVaciar = document.querySelector('#boton-vaciar');
+
+          // Funciones
+
+         // Función de productos
+          function renderizarProductos() {
+              baseDeDatos.forEach((info) => {
+                  // Estructura
+                  const miNodo = document.createElement('div');
+                  miNodo.classList.add('card', 'col-sm-4');
+                  // Body
+                  const miNodoCardBody = document.createElement('div');
+                  miNodoCardBody.classList.add('card-body');
+                  // Titulo
+                  const miNodoTitle = document.createElement('h5');
+                  miNodoTitle.classList.add('card-title');
+                  miNodoTitle.textContent = info.nombre;
+                                   
+                  // Precio
+                  const miNodoPrecio = document.createElement('p');
+                  miNodoPrecio.classList.add('card-text');
+                  miNodoPrecio.textContent = info.precio + '$';
+                  // Boton 
+                  const miNodoBoton = document.createElement('button');
+                  miNodoBoton.classList.add('btn', 'btn-primary');
+                  miNodoBoton.textContent = '+';
+                  miNodoBoton.setAttribute('marcador', info.id);
+                  miNodoBoton.addEventListener('click', anyadirProductoAlCarrito);
+                  // Insertamos
+                  miNodoCardBody.appendChild(miNodoTitle);
+                  miNodoCardBody.appendChild(miNodoPrecio);
+                  miNodoCardBody.appendChild(miNodoBoton);
+                  miNodo.appendChild(miNodoCardBody);
+                  DOMitems.appendChild(miNodo);
+              });
+          }
+
+          /**
+          * Evento para añadir un producto al carrito de la compra
+          */
+          function anyadirProductoAlCarrito(evento) {
+              // Anyadimos el Nodo a nuestro carrito
+              carrito.push(evento.target.getAttribute('marcador'))
+              // Calculo el total
+              calcularTotal();
+              // Actualizamos el carrito 
+              renderizarCarrito();
+
+          }
+
+          /**
+          * Dibuja todos los productos guardados en el carrito
+          */
+          function renderizarCarrito() {
+              // Vaciamos todo el html
+              DOMcarrito.textContent = '';
+              // Quitamos los duplicados
+              const carritoSinDuplicados = [...new Set(carrito)];
+              // Generamos los Nodos a partir de carrito
+              carritoSinDuplicados.forEach((item) => {
+                  // Obtenemos el item que necesitamos de la variable base de datos
+                  const miItem = baseDeDatos.filter((itemBaseDatos) => {
+                      // ¿Coincide las id? Solo puede existir un caso
+                      return itemBaseDatos.id === parseInt(item);
+                  });
+                  // Cuenta el número de veces que se repite el producto
+                  const numeroUnidadesItem = carrito.reduce((total, itemId) => {
+                      // ¿Coincide las id? Incremento el contador, en caso contrario no mantengo
+                      return itemId === item ? total += 1 : total;
+                  }, 0);
+                  // Creamos el nodo del item del carrito
+                  const miNodo = document.createElement('li');
+                  miNodo.classList.add('list-group-item', 'text-right', 'mx-2');
+                  miNodo.textContent = `${numeroUnidadesItem} x ${miItem[0].nombre} - ${miItem[0].precio}$`;
+                  // Boton de borrar
+                  const miBoton = document.createElement('button');
+                  miBoton.classList.add('btn', 'btn-danger', 'mx-5');
+                  miBoton.textContent = 'X';
+                  miBoton.style.marginLeft = '1rem';
+                  miBoton.dataset.item = item;
+                  miBoton.addEventListener('click', borrarItemCarrito);
+                  // Mezclamos nodos
+                  miNodo.appendChild(miBoton);
+                  DOMcarrito.appendChild(miNodo);
+              });
+          }
+
+          /**
+          * Evento para borrar un elemento del carrito
+          */
+          function borrarItemCarrito(evento) {
+              // Obtenemos el producto ID que hay en el boton pulsado
+              const id = evento.target.dataset.item;
+              // Borramos todos los productos
+              carrito = carrito.filter((carritoId) => {
+                  return carritoId !== id;
+              });
+              // volvemos a renderizar
+              renderizarCarrito();
+              // Calculamos de nuevo el precio
+              calcularTotal();
+          }
+
+          /**
+          * Calcula el precio total teniendo en cuenta los productos repetidos
+          */
+          function calcularTotal() {
+              // Limpiamos precio anterior
+              total = 0;
+              // Recorremos el array del carrito
+              carrito.forEach((item) => {
+                  // De cada elemento obtenemos su precio
+                  const miItem = baseDeDatos.filter((itemBaseDatos) => {
+                      return itemBaseDatos.id === parseInt(item);
+                  });
+                  total = total + miItem[0].precio;
+              });
+              // Totalizamos  el precio en el HTML
+              DOMtotal.textContent = total.toFixed(2);
+          }
+
+          /**
+          * Función vaciar carrito
+          */
+          function vaciarCarrito() {
+              // Limpiamos los productos guardados
+              carrito = [];
+              // Renderizamos los cambios
+              renderizarCarrito();
+              calcularTotal();
+          }
+
+          // función vaciar carrito
+          DOMbotonVaciar.addEventListener('click', vaciarCarrito);
+
+          // función volve a Inicio
+          renderizarProductos();
+
+
+        } 
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Elementos generados a partir de la clase-->
+            <main id="items" class="col-sm-8 row"></main>
+            <!-- Carrito -->
+            <aside class="col-sm-4">
+                <h2>Carrito</h2>
+                <!-- Elementos del carrito -->
+                <ul id="carrito" class="list-group"></ul>
+                <hr>
+                <!-- Precio total -->
+                <p class="text-right">Total: <span id="total"></span>$pesos;</p>
+                <button id="boton-vaciar" class="btn btn-danger">Vaciar</button>
+            </aside>
+        </div>
+    </div>
+             
+    <footer>
+        <button>Autor: Trabajo de grupo</button>
+        <p><a href="mailto:mlizara72914@universidadean.edu.co">mlizara72914@universidadean.edu.co</a></p>
+      </footer>
+
+<!--Importamos la libreria de jQuery-->
+<script src="./js/jquery-3.6.0.min.js"></script>
+<!--Agregar el código java script-->
+<script src= "./js/funciones.js"></script>
+<!--JS Bootstrap-->
+<script src=".js/bootstrap.js"></script>
+<script sr="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js"></script>
+<script>
+  $('#Procampo').tabs();
+</script>
+</body>
+</html>
